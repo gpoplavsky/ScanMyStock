@@ -4,7 +4,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {colors} from '../global/colors'
 import ShadowWrapper from './ShadowWrapper';
 
-const Item = ({item}) => {
+const Item = ({item,navigation}) => {
 
     const [checkButton, setCheckButton] = useState(true)
 
@@ -13,7 +13,7 @@ const Item = ({item}) => {
     }
 
     const onPressEdit = () => {
-        alert('Se apretó el edit')
+        navigation.navigate('Detail', {item})
     }
         
     const screenWidth = Dimensions.get('window').width;

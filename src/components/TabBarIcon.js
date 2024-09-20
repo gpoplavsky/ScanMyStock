@@ -6,7 +6,7 @@ import { colors } from '../global/colors';
 const TabBarIcon = ({icon,focused}) => {
   return (
     <View style={styles.container} >
-      <View style={{backgroundColor: focused ? colors.color2 : "white"}}>
+      <View style={{backgroundColor: focused ? colors.color2 : "white",flex:1,borderRadius:3,width:42,height:42,alignItems:"center"}}>
         <MaterialIcons 
           style={styles.tabBarIcon}
           name={icon} 

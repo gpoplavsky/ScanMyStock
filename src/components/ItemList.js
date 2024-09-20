@@ -3,9 +3,10 @@ import React from 'react'
 import { colors } from '../global/colors'
 import Item from './Item'
 
-const ItemList = ({items}) => {
+const ItemList = ({items, navigation}) => {
+    
     const renderItem = ({item}) => (
-        <Item item={item}/>
+        <Item item={item} navigation={navigation} />
     )
 
     return (

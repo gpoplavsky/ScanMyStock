@@ -8,10 +8,7 @@ import { clearUser } from '../features/auth/authSlice'
  */
 
 
-const Header = ({title}) => {
-
-    console.log(title);
-    
+const Header = ({title}) => { 
 
 /*     const dispatch = useDispatch()
     const idToken = useSelector(state => state.auth.idToken)
@@ -23,12 +20,13 @@ const Header = ({title}) => {
  */  
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{title ? title : 'Sin título'}</Text>
-{/*             {idToken} && 
+            <Text style={styles.text}>{title || "Default Title"}</Text>
+        </View>
+/*             {idToken} && 
             <TouchableOpacity onPress={onLogout} style={styles.logout}>
                 <IconButton name={"logout"} size={24} color={"White"} />
             </TouchableOpacity>
- */}        </View>
+ */        
     )
 }
 
@@ -39,14 +37,17 @@ const styles = StyleSheet.create({
     marginTop:Platform.OS === "android" ? StatusBar.currentHeight:0,
     backgroundColor:colors.color1,
     width:"100%",
-    height:80,
+    height:64,
     flexDirection:"row",
     justifyContent:"center",
     alignItems:"center",
-    position:"relative"
+    position:"relative",
+    marginBottom:10
     },
     text:{
-    fontSize:25,
+    fontSize:24,
+    color:"white",
+    fontWeight:"bold"
     },
     logout:{
     position:"absolute",
