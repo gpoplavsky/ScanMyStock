@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import TabBarIcon from '../components/TabBarIcon'
 import CameraButton from '../components/CameraButton'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -18,54 +18,54 @@ const TabNavigator = ({onPressCameraButton}) => {
         tabBarShowLabel:false,
         tabBarStyle:styles.tabBar
       }}>
-        <Tab.Screen
-          name='HomeStack'
-          component={CheckinStack}
-          options={{
-            tabBarIcon:({focused}) => {
-              return <TabBarIcon focused={focused} icon="home"/>
-            }
-          }}
-        />
-        <Tab.Screen
-          name='StockStack'
-          component={StockStack}
-          options={{
-            tabBarIcon:({focused}) => {
-              return <TabBarIcon focused={focused} icon="playlist-add-check"/>
-            }
-          }}
-        />
-        <Tab.Screen
-          name='Camera'
+      <Tab.Screen
+        name='HomeStack'
+        component={CheckinStack}
+        options={{
+          tabBarIcon:({focused}) => {
+            return <TabBarIcon focused={focused} icon="home"/>
+          }
+        }}
+      />
+      <Tab.Screen
+        name='StockStack'
+        component={StockStack}
+        options={{
+          tabBarIcon:({focused}) => {
+            return <TabBarIcon focused={focused} icon="playlist-add-check"/>
+          }
+        }}
+      />
+      <Tab.Screen
+        name='Camera'
           component={CameraModal}
-          options={{
-            tabBarIcon:({focused}) => {
+        options={{
+          tabBarIcon:({focused}) => {
               return <CameraButton onPressCameraButton={onPressCameraButton}/>
-            }
-          }}
-          />
+          }
+        }}
+      />
         
-        <Tab.Screen
-          name='DeliveryStack'
-          component={DeliveryStack}
-          options={{
-            tabBarIcon:({focused}) => {
-              return <TabBarIcon focused={focused} icon="delivery-dining"/>
-            }
-          }}
-        />
-        <Tab.Screen
-          name='ArchiveStack'
-          component={ArchiveStack}
-          options={{
-            tabBarIcon:({focused}) => {
-              return <TabBarIcon focused={focused} icon="archive"/>
-            }
-          }}
-        />
-      </Tab.Navigator>
-  )
+      <Tab.Screen
+        name='DeliveryStack'
+        component={DeliveryStack}
+        options={{
+          tabBarIcon:({focused}) => {
+            return <TabBarIcon focused={focused} icon="delivery-dining"/>
+          }
+        }}
+      />
+      <Tab.Screen
+        name='ArchiveStack'
+        component={ArchiveStack}
+        options={{
+          tabBarIcon:({focused}) => {
+            return <TabBarIcon focused={focused} icon="archive"/>
+          }
+        }}
+      />
+    </Tab.Navigator>
+    )
 }
 
 export default TabNavigator

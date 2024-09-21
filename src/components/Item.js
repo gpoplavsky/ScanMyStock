@@ -20,35 +20,40 @@ const Item = ({item,navigation}) => {
     const itemWidth = screenWidth * 0.95;  
 
     return (
-            <ShadowWrapper style={[styles.container, { width: itemWidth }]}>
-                <View style={styles.checkboxContainer}>
-                    <TouchableWithoutFeedback 
-                        accessible={true}
-                        accessibilityRole='checkbox'
-                        accessibilityState={checkButton}
-                        onPress={onPressCheckButton}
-                    >
-                        <View style={styles.button}>
-                            {checkButton ? (
-                                <MaterialIcons name="radio-button-checked" size={26} color={colors.dark} />
-                            ) : (
-                                <MaterialIcons name="radio-button-unchecked" size={26} color={colors.dark} />
-                            )}
-                        </View>
-                    </TouchableWithoutFeedback>
-                </View>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{item}</Text>
-                </View>
-                <View style={styles.editContainer}>
-                    <TouchableOpacity 
-                        onPress={onPressEdit}
-                        style={styles.button}
-                    >
-                            <MaterialIcons name="edit" size={26} color={colors.dark}/>
-                    </TouchableOpacity>
-                </View>
-            </ShadowWrapper>
+        <ShadowWrapper style={[styles.container, { width: itemWidth }]}>
+            <View style={styles.checkboxContainer}>
+                <TouchableWithoutFeedback 
+                    accessible={true}
+                    accessibilityRole='checkbox'
+                    accessibilityState={checkButton}
+                    onPress={onPressCheckButton}
+                >
+                    <View style={styles.button}>
+                        {checkButton ? (
+                            <MaterialIcons name="radio-button-checked" size={26} color={colors.dark} />
+                        ) : (
+                            <MaterialIcons name="radio-button-unchecked" size={26} color={colors.dark} />
+                        )}
+                    </View>
+                </TouchableWithoutFeedback>
+            </View>
+            <View style={styles.titleContainer}>
+                <TouchableOpacity 
+                    onPress={onPressEdit}
+                    style={styles.button}
+                >
+                    <Text style={styles.title}>{item.title}</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.editContainer}>
+                <TouchableOpacity 
+                    onPress={onPressEdit}
+                    style={styles.button}
+                >
+                        <MaterialIcons name="edit" size={26} color={colors.dark}/>
+                </TouchableOpacity>
+            </View>
+        </ShadowWrapper>
   )
 }
 
@@ -63,8 +68,8 @@ const styles = StyleSheet.create({
         gap: 20,
         borderColor: colors.dark,
         borderRadius: 3,
-        borderWidth: 1,
-        backgroundColor: 'white',
+        borderWidth: 0.4,
+        backgroundColor:"white"
         },
     checkboxContainer:{
         justifyContent:"center",
@@ -77,11 +82,14 @@ const styles = StyleSheet.create({
     button:{
         flex:1,
         alignItems:"center",
-        justifyContent:"center"
+        justifyContent:"center",
+        width:"100%"
+
     },
     titleContainer:{
         alignItems:"center",
-        justifyContent:"center"
+        justifyContent:"center",
+        width:"60%",
     },
     title:{
         color:colors.dark,

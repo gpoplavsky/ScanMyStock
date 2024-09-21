@@ -1,15 +1,16 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import ItemList from '../components/ItemList';
+import { useSelector } from 'react-redux';
 
 const Home = ({navigation}) => {
 
-  const items = ['Tarea 1', 'Tarea 2', 'Tarea 3', 'Tarea 4']; // DAtos de ejemplo
+  const items = useSelector(state => state.items.items) // se accede a los items del store
 
   return (
     <View style={styles.container}>
       <View style={styles.itemList}>
-        <ItemList items={items} navigation={navigation} />
+        <ItemList items={items} navigation={navigation} list=""/>
       </View>
     </View>
   )

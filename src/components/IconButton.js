@@ -2,15 +2,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-const IconButton = ({name, size, color}) => {
+const IconButton = ({name, size, color, onPressIconButton}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity 
+      style={styles.container}
+      onPress={onPressIconButton}>
             <MaterialIcons style={styles.iconButton} 
                 name={name} 
                 size={size} 
                 color={color}
             />
-    </View>
+    </TouchableOpacity>
   )
 }
 

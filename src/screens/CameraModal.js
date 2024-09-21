@@ -1,11 +1,15 @@
 import { Modal, StyleSheet, Text, View, Pressable,Alert, TouchableOpacity } from 'react-native'
 import { colors } from '../global/colors';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { CameraView, useCameraPermissions, dataScanner } from 'expo-camera';
-import { useState, useEffect } from 'react';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../reducers/itemReducer';
 
 
-const CameraModal = ({visibleCameraModal,handleVisibleCameraModal}) => {
+const CameraModal = ({ visibleCameraModal, handleVisibleCameraModal}) => {
+
+    const dispatch = useDispatch();
 
     // Acá van los estados y permisos de la cámara
     const [facing, setFacing] = useState('back');
@@ -15,9 +19,20 @@ const CameraModal = ({visibleCameraModal,handleVisibleCameraModal}) => {
     // Acá van las funciones de la cámara 
 
         // Función para manejar los códigos de barra escaneados y guardarlos en un array de Estado
-
         function handleBarcodeScanned({ type, data }) {
-            setScannedData({type, data, timestamp: new Date().toISOString() });
+            const newItem = {
+                id: Date.now(), // Genera un ID único basado en fecha/hora -> se va a reemplazar con firebase
+                date: new Date().toISOString(), // Timestamp
+                title: data, // Guarda el código escaneado como título
+                dni: "",
+                name: "",
+                email: "",
+                account: "",
+                status: "",
+                list: "",
+            }
+            dispatch(addItem(newItem)) // despacha la acción para agregar item
+            setScannedData(newItem); // Almacena los datos escaneados localmente
         }    
 
     // un useEffect que al obtener un dato escaneado, cierra el modal de la cámara para que no se produzca un escaneo infinito

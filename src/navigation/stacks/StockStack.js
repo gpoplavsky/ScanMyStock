@@ -1,11 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import Header from '../../components/Header'
+import Stock from '../../screens/Stock'
+import ItemDetail from '../../screens/ItemDetail'
+
+const Stack = createNativeStackNavigator()
 
 const StockStack = () => {
   return (
-    <View>
-      <Text>StockStack</Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={({route}) => ({
+          header : () => <Header title={route.name === 'Stock' ? 'Tarjetas en Bull' : 'Detalle'} />
+        })}
+    >
+      <Stack.Screen name='Stock' component={Stock}/>
+      <Stack.Screen name='Detail' component={ItemDetail} />
+    </Stack.Navigator>
   )
 }
 
