@@ -41,7 +41,7 @@ const CameraModal = ({ visibleCameraModal, handleVisibleCameraModal}) => {
         if (!scannedData || scannedData.length === 0) {
             return; // No hace nada si scannedData es null, undefined o un array vacío
         } else {
-            alert(`Código escaneado: ${scannedData.data}`);
+            alert(`Código escaneado: ${scannedData.title}`);
             handleVisibleCameraModal();
             console.log({ scannedData });
         }

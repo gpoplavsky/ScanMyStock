@@ -38,7 +38,7 @@ const TabNavigator = ({onPressCameraButton}) => {
       />
       <Tab.Screen
         name='Camera'
-          component={CameraModal}
+        component={CameraModal}
         options={{
           tabBarIcon:({focused}) => {
               return <CameraButton onPressCameraButton={onPressCameraButton}/>

@@ -1,17 +1,10 @@
-import {React, useEffect, useState} from 'react';
-import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { CameraView, CameraType, useCameraPermissions, dataScanner } from 'expo-camera';
-import ModalPrimary from './src/components/ModalPrimary';
-import PrimaryBtn from './src/components/PrimaryBtn';
+import {React, useState} from 'react';
+import { StyleSheet,  } from 'react-native';
 import CameraModal from './src/screens/CameraModal';
-import SecondaryBtn from './src/components/SecondaryBtn';
-import CameraButton from './src/components/CameraButton';
-import TabNavigator from './src/navigation/TabNavigator';
-import TabBarIcon from './src/components/TabBarIcon';
 import { colors } from './src/global/colors';
-import Item from './src/components/Item';
-import ItemList from './src/components/ItemList';
 import MainNavigator from './src/navigation/MainNavigator';
+import { Provider } from 'react-redux';
+import store from './src/store/index'
 
 
 export default function App() {
@@ -24,11 +17,10 @@ export default function App() {
       
   return (
     <>
-      <MainNavigator onPressCameraButton={handleVisibleCameraModal}/>
-      <CameraModal
-        visibleCameraModal={visibleCameraModal}
-        handleVisibleCameraModal={handleVisibleCameraModal}
-      />
+      <Provider store={store}>
+        <MainNavigator onPressCameraButton={handleVisibleCameraModal}/>
+        <CameraModal visibleCameraModal={visibleCameraModal} handleVisibleCameraModal={handleVisibleCameraModal}/>
+      </Provider>
     </>
   );
 }
