@@ -40,7 +40,7 @@ const ItemDetail = ({route, navigation}) => {
     }
     //despacho la acción de redux para actualizar el item
     dispatch(updateItem(updatedItem))
-    Alert.alert('Datos guardados',`Título: ${updatedItem.title}, DNI: ${updatedItem.dni}`)
+    Alert.alert('Datos guardados',`Título: ${updatedItem.title}`)
     navigation.goBack() // y vuelvo a la pantalla anterior
   }
 
