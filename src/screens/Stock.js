@@ -2,20 +2,23 @@ import { StyleSheet, View } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import ItemList from '../components/ItemList';
 import Search from '../components/Search';
-import data from '../db/data.json'
+import { useSelector } from 'react-redux';
 
 const Stock = ({navigation}) => {
+
+  const items = useSelector(state => state.items.items) // se accede a los items del store
+
   const [keyword, setKeyword] = useState('')
   const [filteredItems, setFilteredItems] = useState([])
-
+ 
   useEffect(() => {
-      const items = data.filter(item => item.list === 'stock') 
-      if (keyword) {
-        setFilteredItems(items.filter(item => item.title.includes(keyword)))
+    const stockItems = items.filter(item => item.list === 'stock')
+    if (keyword) {
+        setFilteredItems(stockItems.filter(item => item.title.includes(keyword)))
       } else {
-        setFilteredItems(items)
+        setFilteredItems(stockItems)
       }
-    },[keyword])
+    },[keyword, items])
 
   return (
     <View style={styles.container}>
