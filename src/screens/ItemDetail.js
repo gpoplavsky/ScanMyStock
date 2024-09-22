@@ -6,12 +6,13 @@ import PrimaryBtn from '../components/PrimaryBtn'
 import SecondaryBtn from '../components/SecondaryBtn'
 import {Picker} from '@react-native-picker/picker'
 import { useDispatch } from 'react-redux'
-import { updateItem } from '../reducers/itemReducer'
+import { updateItem } from '../features/items/itemsSlice'
 
 const ItemDetail = ({route, navigation}) => {
 
   // paso el item por los parámetros de ruta
   const {item} = route.params
+  
 
   // creo los estados que van a modificar los valores del item mostrado
   const [title, setTitle] = useState(item.title)

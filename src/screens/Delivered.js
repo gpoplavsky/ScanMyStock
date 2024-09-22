@@ -1,31 +1,68 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text, Button } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import ItemList from '../components/ItemList';
 import Search from '../components/Search';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetItemsQuery, useUpdateItemMutation } from '../services/inventory';
+import { updateItem } from '../features/items/itemsSlice';
 
 const Delivered = ({navigation}) => {
-
-  const items = useSelector(state => state.items.items) // se accede a los items del store
-  
+  const {data: items = [], isLoading, error} = useGetItemsQuery()
+  const dispatch = useDispatch()
   const [keyword, setKeyword] = useState('')
   const [filteredItems, setFilteredItems] = useState([])
+  const [selectedItems, setSelectedItems] = useState([])
+  const [showButton, setShowButton] = useState(false)
+  const [updateItemInDB] = useUpdateItemMutation()
 
   useEffect(() => {
-      const deliveredItems = items.filter(item => item.list === 'delivered') 
-      if (keyword) {
-        setFilteredItems(items.filter(item => item.title.includes(keyword)))
-      } else {
-        setFilteredItems(deliveredItems)
+      // si los items existen
+    if (!items || items.length === 0) return;
+
+    // Filtrar los items cuya propiedad "list" sea "delivered"
+    const deliveredItems = items.filter((item => item.list === 'delivered'))   
+
+    // Filtrar los items con el keyword si existe
+    const newFilteredItems = keyword
+    ? deliveredItems.filter(item => item.title.includes(keyword))
+    : deliveredItems;
+
+    // Verificar si realmente hay cambios en filteredItems antes de actualizar el estado
+    if (JSON.stringify(newFilteredItems) !== JSON.stringify(filteredItems)) {
+        setFilteredItems(newFilteredItems);
+      } 
+  },[keyword, items, filteredItems])
+
+  useEffect(() => {
+    setShowButton(selectedItems.length > 0)
+  },[selectedItems])
+
+  const handleSendToStock = async () => {
+    selectedItems.forEach(item => {
+      dispatch(updateItem({...item, list: 'stock'}))
+    })
+    for (const item of selectedItems) {
+      try {
+        await updateItemInDB({id: item.id, ...item, list:'stock'})
+      } catch (error) {
+        console.error('Error actualizando la base de datos:', error);
       }
-    },[keyword, items])
+    }
+  }
+
+  if (isLoading) return
+  <View><Text>Cargando...</Text></View>
+  if (error) return <View><Text>Error al cargar los datos.</Text></View>
 
   return (
     <View style={styles.container}>
       <Search onSearch={setKeyword}/>      
       <View style={styles.itemList}>
-        <ItemList items={filteredItems} navigation={navigation} list="delivered"/>
+        <ItemList items={filteredItems} navigation={navigation} list="delivered" onItemsSelected={setSelectedItems}/>
       </View>
+      {showButton && (
+        <Button title='Volver a stock' onPress={handleSendToStock}/>
+      )}
     </View>
   )
 }

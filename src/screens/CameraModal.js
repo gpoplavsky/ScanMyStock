@@ -4,7 +4,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from '../reducers/itemReducer';
+import { addItem } from '../features/items/itemsSlice';
 
 
 const CameraModal = ({ visibleCameraModal, handleVisibleCameraModal}) => {

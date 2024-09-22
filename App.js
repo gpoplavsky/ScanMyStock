@@ -4,10 +4,19 @@ import CameraModal from './src/screens/CameraModal';
 import { colors } from './src/global/colors';
 import MainNavigator from './src/navigation/MainNavigator';
 import { Provider } from 'react-redux';
-import store from './src/store/index'
+import { store } from './src/app/store';
+import { StatusBar } from 'expo-status-bar';
+import { init } from './src/db';
 
 
 export default function App() {
+
+  init()
+  .then(() => console.log('DB inicializada'))
+  .catch(err => {
+    console.log("Falló la incialización de la DB:");
+    console.log(err.message);
+  })
 
   const [visibleCameraModal, setVisibleCameraModal] = useState(false);
 
@@ -17,10 +26,11 @@ export default function App() {
       
   return (
     <>
-      <Provider store={store}>
+      <Provider store={store} >
         <MainNavigator onPressCameraButton={handleVisibleCameraModal}/>
         <CameraModal visibleCameraModal={visibleCameraModal} handleVisibleCameraModal={handleVisibleCameraModal}/>
       </Provider>
+      <StatusBar style='light' backgroundColor={colors.color1} />
     </>
   );
 }

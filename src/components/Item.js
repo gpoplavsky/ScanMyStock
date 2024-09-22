@@ -4,12 +4,13 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {colors} from '../global/colors'
 import ShadowWrapper from './ShadowWrapper';
 
-const Item = ({item,navigation}) => {
+const Item = ({item,navigation,onSelectItem}) => {
 
-    const [checkButton, setCheckButton] = useState(true)
+    const [isChecked, setIsChecked] = useState(false)
 
     const onPressCheckButton = () => {
-        setCheckButton(!checkButton)
+        setIsChecked(!isChecked)
+        onSelectItem(item, !isChecked)
     }
 
     const onPressEdit = () => {
@@ -25,11 +26,11 @@ const Item = ({item,navigation}) => {
                 <TouchableWithoutFeedback 
                     accessible={true}
                     accessibilityRole='checkbox'
-                    accessibilityState={checkButton}
+                    accessibilityState={isChecked}
                     onPress={onPressCheckButton}
                 >
                     <View style={styles.button}>
-                        {checkButton ? (
+                        {isChecked ? (
                             <MaterialIcons name="radio-button-checked" size={26} color={colors.dark} />
                         ) : (
                             <MaterialIcons name="radio-button-unchecked" size={26} color={colors.dark} />
