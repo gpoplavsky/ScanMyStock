@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { registerSchema } from '../validations/registerSchema'
 import { deleteSession, insertSession } from '../db'
 import { setUser } from '../features/auth/authSlice'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 const Register = ({navigation}) => {
   const [email, setEmail] = useState("")
@@ -17,56 +18,71 @@ const Register = ({navigation}) => {
   const [errorEmail,setErrorEmail] = useState("")
   const [errorPassword,setErrorPassword] = useState("")
   const [errorConfirmPassword,setErrorConfirmPassword] = useState("")
-  const [triggerRegister, {data,isSuccess,isError,error}] = useRegisterMutation()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (isError) {
-      console.log("Error en la mutación de registro:", error);
-      setErrorEmail("Email inexistente")
-    }
-  },[isError, error])
+  const auth = getAuth()
 
   const onsubmit = async() => {
     try {
       registerSchema.validateSync({email,password,confirmPassword})
-      const result = await triggerRegister({ email, password })
-      if (result?.data) {
-        const { email, idToken, localId } = result.data
-        deleteSession()
-        insertSession(result.data)
-        dispatch(setUser({ email , idToken, localId}))
-      } else {
-        console.log("Error en la respuesta:", result);
-      }
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user;
+      deleteSession();
+      insertSession({
+        email: user.email,
+        idToken: user.accessToken,
+        localId: user.uid
+      })
+      dispatch(setUser({
+        email: user.email,
+        idToken: user.idToken,
+        localId: user.uid
+      }))
+      navigation.navigate('Registered')
       
     } catch (error) {
-      console.log(error);
+      console.log("Error en el registro:",error);
       
-      switch (error.path) {
-        case "email":
-          setErrorEmail(error.message)
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          setErrorEmail("Este email ya está en uso")
           setErrorPassword("")
           setErrorConfirmPassword("")
           break;
-        case "password":
-          setErrorEmail("")
-          setErrorPassword(error.message)
-          setErrorConfirmPassword("")
+        case "auth/invalid-email":
+          setErrorEmail("Email inválido")
           break;
-        case "confirmPassword":
-          setErrorEmail("")
-          setErrorPassword("")
-          setErrorConfirmPassword(error.message)
+        case "auth/weak-password":
+          setErrorPassword("La contraseña debe tener al menos 6 caracteres")
           break;
-      } 
+        default:
+          switch (error.path) {
+            case "email":
+              setErrorEmail(error.message);
+              setErrorPassword("");
+              setErrorConfirmPassword("");
+              break;
+            case "password":
+              setErrorPassword(error.message);
+              setErrorEmail("");
+              setErrorConfirmPassword("");
+              break;
+            case "confirmPassword":
+              setErrorConfirmPassword(error.message);
+              setErrorEmail("");
+              setErrorPassword("");
+              break;
+            default:
+              break;
+          }
+        } 
     }
   }
 
   return (
     <View style={styles.main}>
       <View style={styles.container}>
-        <Image source={'../../assets/img/logo.png'}/>
+        <Image source={require('../../assets/img/logo.png')}/>
         <Text style={styles.title}>Registro de usuario</Text>
         <InputForm
           label={"Email"}
@@ -124,8 +140,9 @@ const styles = StyleSheet.create({
     backgroundColor:colors.dark,
   },
   title:{
-    fontSize:22,
+    fontSize:24,
     color:colors.light,
-    marginBottom:9
+    marginBottom:9,
+    fontWeight:"bold"
   }
 })

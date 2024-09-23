@@ -30,6 +30,5 @@ const styles = StyleSheet.create({
     },
     iconButton:{
         flex:1,
-
     }
 })

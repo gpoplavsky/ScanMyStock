@@ -2,31 +2,31 @@ import { StyleSheet, Text, TouchableOpacity, View,Platform,StatusBar } from 'rea
 import React from 'react'
 import IconButton from './IconButton'
 import { colors } from '../global/colors'
-/* import { deleteSession } from '../db'
 import { useDispatch, useSelector } from 'react-redux'
+import { deleteSession } from '../db'
 import { clearUser } from '../features/auth/authSlice'
- */
 
 
-const Header = ({title}) => { 
 
-/*     const dispatch = useDispatch()
+const Header = ({title, navigation}) => { 
+
+    const dispatch = useDispatch()
     const idToken = useSelector(state => state.auth.idToken)
-  
-    const onLogout = () =>{
-        deleteSession()
+
+    const onLogout = async () => {
         dispatch(clearUser())
+        const sessionDeleted = await deleteSession({localId})
+        console.log(sessionDeleted)
     }
- */  
+ 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{title || "Default Title"}</Text>
-        </View>
-/*             {idToken} && 
+            <Text style={styles.text}>{title}</Text>
+            {idToken && 
             <TouchableOpacity onPress={onLogout} style={styles.logout}>
-                <IconButton name={"logout"} size={24} color={"White"} />
-            </TouchableOpacity>
- */        
+                <IconButton name={"logout"} size={24} color="white" />
+            </TouchableOpacity>}
+        </View>      
     )
 }
 
@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
     logout:{
     position:"absolute",
     right:10,
-    bottom:20
+    color:"white"
     }    
 })

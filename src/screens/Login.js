@@ -29,8 +29,8 @@ const Login = ({navigation}) => {
     try {
       loginSchema.validateSync({email,password})
       const {data} = await triggerLogin({email,password})
-        deleteSession()
-        insertSession(data)
+        //deleteSession()
+        //insertSession(data)
         dispatch(setUser({
           email:data.email,
           idToken:data.idToken,
@@ -57,7 +57,7 @@ const Login = ({navigation}) => {
   return (
     <View style={styles.main}>
       <View style={styles.container}>
-        <Image source='../../assets/img/logo.png'/>
+        <Image source={require('../../assets/img/logo.png')}/>
         <Text style={styles.title}>Iniciar sesión</Text>
         <InputForm
           label={"Email"}
@@ -107,8 +107,9 @@ const styles = StyleSheet.create({
     backgroundColor:colors.dark,
   },
   title:{
-    fontSize:22,
+    fontSize:24,
     color:colors.light,
-    marginBottom:9
+    marginBottom:9,
+    fontWeight:"bold"
   }
 })
