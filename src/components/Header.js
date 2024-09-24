@@ -14,9 +14,8 @@ const Header = ({title, navigation}) => {
     const idToken = useSelector(state => state.auth.idToken)
 
     const onLogout = async () => {
+        deleteSession()
         dispatch(clearUser())
-        const sessionDeleted = await deleteSession({localId})
-        console.log(sessionDeleted)
     }
  
     return (

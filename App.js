@@ -13,7 +13,9 @@ import firebaseConfig from './src/firebase/config';
 
 export default function App() {
 
-  if (getApps().length === 0) {
+  init()
+
+  /*if (getApps().length === 0) {
     initializeApp(firebaseConfig)
   }
 
@@ -24,7 +26,7 @@ export default function App() {
       console.log("Falló la incialización de la DB:");
       console.log(err.message);
     })
-  },[])
+  },[])*/
 
   const [visibleCameraModal, setVisibleCameraModal] = useState(false);
 

@@ -30,16 +30,7 @@ export const fetchSession = async () => {
 }
 
 
-export const deleteSession = ({localId}) => {
-    const promise = new Promise((resolve, reject) => {
-        db.isInTransactionAsync(tx => {
-            tx.executeSql(
-                'DELETE FROM sessions WHERE localId = ?',
-                [localId],
-                ( result) => resolve(result),
-                ( error) => reject(error)
-            )
-        })
-    })
-    return promise
+export const deleteSession = async () => {
+    const db = await SQLite.openDatabaseAsync('session5.db')
+    const sessionDeleted = await db.runAsync('DELETE FROM sessionUser')
 }
